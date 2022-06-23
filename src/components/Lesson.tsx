@@ -1,15 +1,17 @@
 import { CheckCircle, Lock } from 'phosphor-react';
 import { isPast, format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { Link } from 'react-router-dom';
 
 interface LessonProps {
   title: string;
   slug: string;
   availableAt: Date;
   type: 'live' | 'class';
+  isActive: boolean;
 }
 
-export function Lesson({ availableAt, slug, title, type }: LessonProps) {
+export function Lesson({ availableAt, slug, title, type, isActive }: LessonProps) {
 
   const isLessonAvailable = isPast(availableAt);
   const availableDateFormatted = format(availableAt, "EEEE' • 'd' de ' MMMM' • 'k'h'mm", {
@@ -17,11 +19,20 @@ export function Lesson({ availableAt, slug, title, type }: LessonProps) {
   });
 
   return (
-    <a href={slug}>
+    <Link to={`/event/lesson/${slug}`} className="group">
       <span className="text-gray-300">
         {availableDateFormatted}
       </span>
-      <div className='rounded border border-gray-500 p-4 mt-2'>
+      <div className={
+        isActive ?
+          "bg-gray-500 rounded border border-gray-500 p-4 mt-2 group-hover:border-green-500 transition-colors"
+          :
+          "rounded border border-gray-500 p-4 mt-2 group-hover:border-green-500 transition-colors"
+      }>
+        {
+          isActive &&
+          <span className="h-2 w-2 bg-gray-500 block rotate-45 relative top-7 -left-5 -mb-2"></span>
+        }
         <header className='flex items-center justify-between'>
           {isLessonAvailable ?
             <span className="text-sm text-blue-500 font-medium flex items-center gap-2">
@@ -35,7 +46,7 @@ export function Lesson({ availableAt, slug, title, type }: LessonProps) {
               Em Breve
             </span>
           }
-          <span className="text-xs rouded px-2 py-[0.125rem] text-white border border-green-300">
+          <span className="text-xs rounded px-2 py-[0.125rem] text-white border border-green-300">
             {
               type === 'live' ? 'AO VIVO' : 'AULA PRÁTICA'
             }
@@ -45,6 +56,6 @@ export function Lesson({ availableAt, slug, title, type }: LessonProps) {
           {title}
         </strong>
       </div>
-    </a>
+    </Link>
   )
 }
