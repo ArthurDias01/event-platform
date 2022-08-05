@@ -72,7 +72,7 @@ export function Subscribe() {
 
       </div>
 
-      <img src="/src/assets/images/code-mockup.png" alt="code" className="mt-10" />
+      <img src="https://github.com/ArthurDias01/event-platform/blob/master/src/assets/images/code-mockup.png" alt="code" className="mt-10" />
 
     </div>
   )
